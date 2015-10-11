@@ -12,8 +12,11 @@ class ExpiringSignerTestCase(unittest.TestCase):
 
     def test_policy1(self):
         from .. import CannedPolicySigner
-        signer = CannedPolicySigner('test', os.path.join(here, 'testkey1.pem'),
-                                    expire_seconds=600)
+        signer = CannedPolicySigner(
+            key_pair_id='test',
+            key_path=os.path.join(here, 'testkey1.pem'),
+            expire_seconds=600,
+        )
         ret = signer.gen_policy('https://hogehoge.com/fugafuga.txt',
                                 expired_at=98765)
         self.assertDictEqual(ret, {'Statement': [{
@@ -26,8 +29,11 @@ class ExpiringSignerTestCase(unittest.TestCase):
         mocked_time.return_value = 12345
 
         from .. import CannedPolicySigner
-        signer = CannedPolicySigner('test', os.path.join(here, 'testkey1.pem'),
-                                    expire_seconds=600)
+        signer = CannedPolicySigner(
+            key_pair_id='test',
+            key_path=os.path.join(here, 'testkey1.pem'),
+            expire_seconds=600,
+        )
         ret = signer.sign('https://hogehoge.com/fugafuga.txt')
 
         from ..compat import parse_qs, urlparse

@@ -25,5 +25,9 @@ class CFSignTestCase(unittest.TestCase):
         finally:
             sys.argv = tmp
 
-        mocked_signer.assert_called_once_with('keyid', 'pem', expire_seconds=1)
+        mocked_signer.assert_called_once_with(
+            key_pair_id='keyid',
+            key_path='pem',
+            expire_seconds=1,
+        )
         mocked_sign.assert_called_once_with('url')

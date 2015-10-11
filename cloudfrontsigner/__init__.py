@@ -17,13 +17,17 @@ class Signer(object):
 
     policy_context = {}
 
-    def __init__(self, key_pair_id, key_path, key_format='PEM',
-                 hash_method='SHA-1', **kwargs):
+    def __init__(self, key_pair_id=None, key_path=None, key_format=None,
+                 hash_method=None):
+        assert key_pair_id
+        assert key_path
+
         self.key_pair_id = key_pair_id
         with open(key_path, 'rb') as f:
             key_data = f.read()
+        key_format = 'PEM' if key_format is None else key_format
         self.key = rsa.PrivateKey.load_pkcs1(key_data, key_format)
-        self.hash_method = hash_method
+        self.hash_method = 'SHA-1' if hash_method is None else hash_method
 
     def sign(self, url, **kwargs):
         url, kwargs = self.prepare(url, kwargs)
@@ -65,12 +69,9 @@ class Signer(object):
 
 class CannedPolicySigner(Signer):
 
-    def __init__(self, key_pair_id, key_path, key_format='PEM',
-                 hash_method='SHA-1', expire_seconds=600, **kwargs):
-        super(CannedPolicySigner, self).__init__(key_pair_id, key_path,
-                                                 key_format, hash_method,
-                                                 **kwargs)
-        self.expire_seconds = expire_seconds
+    def __init__(self, expire_seconds=None, **kwargs):
+        super(CannedPolicySigner, self).__init__(**kwargs)
+        self.expire_seconds = 600 if expire_seconds is None else expire_seconds
 
     def prepare(self, url, kwargs):
         url, kwargs = super(CannedPolicySigner, self).prepare(url, kwargs)

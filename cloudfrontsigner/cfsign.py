@@ -15,8 +15,11 @@ def main():
     parser.add_argument('expire_seconds', type=int)
     parser.add_argument('url')
     args = parser.parse_args()
-    signer = CannedPolicySigner(args.key_pair_id, args.secret_key_path,
-                                expire_seconds=args.expire_seconds)
+    signer = CannedPolicySigner(
+        key_pair_id=args.key_pair_id,
+        key_path=args.secret_key_path,
+        expire_seconds=args.expire_seconds,
+    )
     signed = signer.sign(args.url)
     print(signed)
 
