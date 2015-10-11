@@ -41,6 +41,11 @@ setup(
     extras_require={
         'testing': tests_require,
     },
+    entry_points={
+        'console_scripts': [
+            'cfsign = cloudfrontsigner.cfsign:main',
+        ],
+    },
     classifiers=[
         "Intended Audience :: Developers",
         "Programming Language :: Python",
