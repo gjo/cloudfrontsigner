@@ -30,7 +30,7 @@ setup(
     long_description=long_description,
     author='OCHIAI, Gouji',
     author_email='gjo.ext@gmail.com',
-    url='https://github.com/gjo/botocore_paste',
+    url='https://github.com/gjo/cloudfrontsigner',
     license='BSD',
     packages=find_packages(),
     include_package_data=True,
