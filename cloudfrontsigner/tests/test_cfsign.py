@@ -11,7 +11,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 class CFSignTestCase(unittest.TestCase):
 
-    @mock.patch('cloudfrontsigner.ExpiringSigner')
+    @mock.patch('cloudfrontsigner.CannedPolicySigner')
     def test(self, mocked_signer):
         mocked_sign = mock.Mock()
         mocked_sign.return_value = 'signed'

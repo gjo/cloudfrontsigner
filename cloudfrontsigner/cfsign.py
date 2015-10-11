@@ -3,7 +3,7 @@
 
 from __future__ import print_function
 import argparse
-from . import ExpiringSigner
+from . import CannedPolicySigner
 
 
 def main():
@@ -15,8 +15,8 @@ def main():
     parser.add_argument('expire_seconds', type=int)
     parser.add_argument('url')
     args = parser.parse_args()
-    signer = ExpiringSigner(args.key_pair_id, args.secret_key_path,
-                            expire_seconds=args.expire_seconds)
+    signer = CannedPolicySigner(args.key_pair_id, args.secret_key_path,
+                                expire_seconds=args.expire_seconds)
     signed = signer.sign(args.url)
     print(signed)
 
