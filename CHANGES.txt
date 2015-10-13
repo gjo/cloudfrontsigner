@@ -1,6 +1,12 @@
 Change History
 ==============
 
+0.2 - Unreleased
+----------------
+- [plan] more tests
+- [plan] minimum docs
+- [plan] custom policy signer
+
 0.1 - 2015-10-13
 ----------------
 - Initial (preview) release.

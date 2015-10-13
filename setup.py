@@ -25,7 +25,7 @@ tests_require = [
 
 setup(
     name='cloudfrontsigner',
-    version='0.1',
+    version='0.2.dev1',
     description=description,
     long_description=long_description,
     author='OCHIAI, Gouji',
