@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import base64
+import collections
 import json
 import rsa
 import time
@@ -32,12 +33,12 @@ class Signer(object):
     def sign(self, url, **kwargs):
         url, kwargs = self.prepare(url, kwargs)
         policy = self.gen_policy(url, **kwargs)
-        polstr = json.dumps(policy, cls=TrimedJSONEncoder)
-        polbytes = polstr.encode('utf-8')
-        # print(pbytes)
+        #print(policy)
+        polbytes = self.jsonify(policy)
+        #print(polbytes)
         signature = rsa.sign(polbytes, self.key, self.hash_method)
         # print(signature)
-        sigstr = self.b64_encode(signature)
+        sigstr = self.b64encode(signature)
         # print(sigstr)
         params = self.gen_params(url, sigstr, **kwargs)
         parastr = urlencode(params, safe='~')
@@ -50,21 +51,24 @@ class Signer(object):
         return url, kw
 
     def gen_policy(self, url, **kwargs):
-        policy = {'Statement': [{'Resource': url}]}
-        return policy
+        pass
 
-    def b64_encode(self, s):
+    def gen_params(self, url, signature, **kwargs):
+        return {'Key-Pair-Id': self.key_pair_id, 'Signature': signature,}
+
+    @staticmethod
+    def b64encode(s):
         return base64.b64encode(s) \
             .decode('ascii') \
             .replace('+', '-') \
             .replace('=', '_') \
             .replace('/', '~')
 
-    def gen_params(self, url, signature, **kwargs):
-        return {
-            'Key-Pair-Id': self.key_pair_id,
-            'Signature': signature,
-        }
+    @staticmethod
+    def jsonify(v):
+        s = json.dumps(v, cls=TrimedJSONEncoder)
+        b = s.encode('utf-8')
+        return b
 
 
 class CannedPolicySigner(Signer):
@@ -79,11 +83,11 @@ class CannedPolicySigner(Signer):
         return url, kwargs
 
     def gen_policy(self, url, **kwargs):
-        policy = super(CannedPolicySigner, self).gen_policy(url, **kwargs)
-        for st in policy['Statement']:
-            st.setdefault('Condition', {})['DateLessThan'] = {
-                'AWS:EpochTime': kwargs.get('expired_at', 0),
-            }
+        expired_at = kwargs.get('expired_at', 0)
+        stmt = collections.OrderedDict()
+        stmt['Resource'] = url
+        stmt['Condition'] = {'DateLessThan': {'AWS:EpochTime': expired_at}}
+        policy = {'Statement': [stmt]}
         return policy
 
     def gen_params(self, url, signature, **kwargs):
