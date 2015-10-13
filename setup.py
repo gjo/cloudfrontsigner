@@ -25,7 +25,7 @@ tests_require = [
 
 setup(
     name='cloudfrontsigner',
-    version='0.1.dev1',
+    version='0.1',
     description=description,
     long_description=long_description,
     author='OCHIAI, Gouji',
@@ -47,11 +47,14 @@ setup(
         ],
     },
     classifiers=[
-        "Intended Audience :: Developers",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.3",
-        "Programming Language :: Python :: 3.4",
-        "Programming Language :: Python :: 3.5",
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'Intended Audience :: System Administrators',
+        'License :: OSI Approved :: BSD License',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
     ],
 )

@@ -5,8 +5,10 @@ import collections
 import json
 import rsa
 import time
-
 from .compat import urlencode
+
+
+__version__ = '0.1'
 
 
 class TrimedJSONEncoder(json.JSONEncoder):
